@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 body {
-  min-width: 500px;
+  min-width: 350px;
   margin: 0;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   -webkit-font-smoothing: antialiased;

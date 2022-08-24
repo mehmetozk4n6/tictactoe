@@ -1,20 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from './store';
+import { createSlice} from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 export interface XoxState {
-  value: number;
-  status: 'idle' | 'loading' | 'failed';
   winConditions : Array<number[]>
   xConditions:Array<number>
   oConditions:Array<number>
   turn: 'X' | 'O'
   winner : 'X' | 'O' | ''
   winnedCondition:Array<number>
+  turnCount:number
 }
 
 const initialState: XoxState = {
-  value: 0,
-  status: 'idle',
   winConditions: [
     [0,1,2],
     [3,4,5],
@@ -29,7 +26,8 @@ const initialState: XoxState = {
   oConditions:[],
   turn:'X',
   winner : '',
-  winnedCondition:[]
+  winnedCondition:[],
+  turnCount:0
 };
 
 
@@ -48,47 +46,57 @@ export const xoxSlice = createSlice({
       }else{
         state.oConditions.push(action.payload.position)
       }
+      state.turnCount++;
     },
 
     whoWin:(state) => {
 
-      state.winConditions.some(condition=>{
-        let isWin : Array<boolean> = []
+      state.winConditions.forEach(condition=>{
+        let isWinX : Array<boolean> = []
+        let isWinO : Array<boolean> = []
+
         state.xConditions.forEach(xEl => {
           if(condition.includes(xEl)){
-            isWin.push(true);
+            isWinX.push(true);
           }
         })
-        if(isWin.filter(ok=>ok===true).length===3){
+        if(isWinX.filter(ok=>ok===true).length===3){
           state.winner ='X';
           state.winnedCondition = condition
         }else{
-          isWin = [];
+          isWinX = [];
         }
-      })
 
-      state.winConditions.some(condition=>{
-        let isWin : Array<boolean> = []
         state.oConditions.forEach(oEl => {
           if(condition.includes(oEl)){
-            isWin.push(true);
+            isWinO.push(true);
           }
         })
-        if(isWin.filter(ok=>ok===true).length===3){
+        if(isWinO.filter(ok=>ok===true).length===3){
           state.winner ='O';
           state.winnedCondition = condition
         }else{
-          isWin = [];
+          isWinO = [];
         }
       })
+
+    },
+
+    reset:(state) => {
+      window.location.reload()
     }
   },
 });
 
-export const {changeTurn, addPosition,whoWin } = xoxSlice.actions;
+export const {changeTurn, addPosition, whoWin, reset  } = xoxSlice.actions;
 
 export const selectTurn = (state: RootState) => state.xox.turn;
 export const selectWinner = (state: RootState) => state.xox.winner;
+export const selectTurnCount = (state:RootState) => state.xox.turnCount;
+export const selectWinnedCondition = (state:RootState) => state.xox.winnedCondition
+export const selectXConditions = (state:RootState) => state.xox.xConditions
+export const selectOConditions = (state:RootState) => state.xox.oConditions
+
 
 
 export default xoxSlice.reducer;

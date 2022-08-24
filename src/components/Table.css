@@ -1,0 +1,14 @@
+.xstyle:hover{
+    background-image: url("../assets/X.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.5;
+    background-size: 130%;
+}
+.ostyle:hover{
+    background-image: url("../assets/O.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.3;
+    background-size: 130%;
+}
