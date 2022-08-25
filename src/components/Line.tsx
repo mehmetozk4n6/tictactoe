@@ -1,9 +1,10 @@
 import { Line } from 'react-lineto';
 import { useAppSelector } from '../redux/hooks';
-import { selectWinnedCondition } from '../redux/xoxSlice';
+import { selectWinnedCondition, selectWinner } from '../redux/xoxSlice';
 
 const LineFinish = () => {
   const winnedCondition = useAppSelector(selectWinnedCondition)
+  const winner = useAppSelector(selectWinner)
   let x1;
   let x0;
   let y1;
@@ -30,7 +31,7 @@ const LineFinish = () => {
   }
 
   return (
-    <Line x0={x0===undefined ? 0 : x0+44} y0={y0===undefined ? 0 : y0+40} x1={x1===undefined ? 0 : x1+44} y1={y1===undefined ? 0 : y1+40} borderColor="black" borderWidth={10}/>
+    <Line x0={x0===undefined ? 0 : x0+44} y0={y0===undefined ? 0 : y0+40} x1={x1===undefined ? 0 : x1+44} y1={y1===undefined ? 0 : y1+40} borderColor={winner==='X' ? '#AB1A1A' : 'black'} borderWidth={10}/>
   )
 }
 
